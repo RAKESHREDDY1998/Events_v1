@@ -1,0 +1,71 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Buy Tickets";
+}
+<h3>Check out</h3>
+<form asp-action="Confirmation" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Event:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.EventTitle" value=@Model.EventTitle class="formcontrol" readonly />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Ticket Price:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.TicketPrice" value=@Model.TicketPrice class="formcontrol" readonly />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>First name:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.Customer.FirstName" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Last name:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.Customer.LastName" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Email:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.Customer.Email" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Address:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.Customer.Address" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Number of tickets:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="@Model.Count" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label>Check if applicable:</label></div>
+        <div class="col-sm-4">
+            <input asp-for="SeniorDiscount" />
+            <label asp-for="SeniorDiscount"> Senior discount</label>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-2 text-end"><label> Select a delivery option:</label></div>
+        <div class="col-sm-4">
+            <select asp-for="SelectedDelivery" asp-items="Model.DeliveryDropDown">
+                <option value="">Not selected</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-sm-4">
+            <button type="submit" class="btn btn-primary">Complete transaction</button>
+        </div>
+    </div>
+    <input type="hidden" asp-for="@Model.EventId" />
+</form>

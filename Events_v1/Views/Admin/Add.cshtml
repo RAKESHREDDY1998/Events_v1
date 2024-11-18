@@ -1,0 +1,50 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Add Event";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<form asp-controller="Admin" asp-action="Add" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row mb-3">
+        <label asp-for="Title" class="col-md-2 form-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="Description" class="col-md-2 form-label"></label>
+        <div class="col-md-10">
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label asp-for="TicketPrice" class="col-md-2 form-label"> Ticket Price</label>
+        <div class="col-md-10">
+            <input asp-for="TicketPrice" class="form-control" />
+            <span asp-validation-for="TicketPrice" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label class="col-md-2 form-label"> Category</label>
+        <div class="col-md-10">
+            <select asp-for="CategoryId" class="form-control">
+                <option value="">Select a category</option>
+                @foreach (Category cat in ViewBag.Categories)
+                {
+                    <option value=@cat.CategoryId>@cat.Name</option>
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
+        </div>
+    </div>
+</form>

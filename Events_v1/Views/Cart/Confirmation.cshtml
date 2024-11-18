@@ -1,0 +1,39 @@
+﻿@model Cart
+@{
+    ViewData["Title"] = "Confirmation";
+}
+<h3>Order Confirmation</h3>
+<table class="table-primary">
+    <tr>
+        <td class="col-md-2"> Order date :</td>
+        <td> @Model.Sale.SaleDate </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Event:</td>
+        <td> @Model.Event.Title </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Ticket Price: </td>
+        <td> @Model.Event.TicketPrice </td>
+    </tr>
+    <tr>
+        <td class="td2"> Number of tickets: </td>
+        <td> @Model.Sale.TicketCount </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Sub total: </td>
+        <td> @Model.Sale.SubTotal.ToString("C2") </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Discount amount: </td>
+        <td> @Model.Sale.Discount.ToString("C2") </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Delivery fee: </td>
+        <td> @Model.Sale.DeliveryCharge.ToString("C2") </td>
+    </tr>
+    <tr>
+        <td class="col-md-2"> Amount due: </td>
+        <td> @Model.Sale.AmountDue.ToString("C2") </td>
+    </tr>
+</table>

@@ -1,0 +1,37 @@
+﻿@model List<Sale>
+@{
+    ViewData["Title"] = "Sales of an event";
+}
+<form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th> Sale date </th>
+                <th> Event </th>
+                <th> Ticket count </th>
+                <th> Customer name </th>
+                <th> Discount </th>
+                <th> Delivery </th>
+                <th> Amount due </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sale in Model)
+            {
+                <tr>
+                    <td>@sale.SaleDate</td>
+                    <td>@sale.Event.Title </td>
+                    <td>@sale.TicketCount </td>
+                    @{
+                        string fullName = sale.Customer.FirstName + " " + sale.Customer.LastName;
+                    }
+                    <td>@fullName </td>
+                    <td>@sale.Discount </td>
+                    <td>@sale.Delivery </td>
+                    <td>@sale.AmountDue </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button asp-controller="Admin" asp-action="List" class="btn btn-success"> Back to Events</button>
+</form>
