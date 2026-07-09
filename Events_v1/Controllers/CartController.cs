@@ -21,7 +21,11 @@ namespace Events_v1.Controllers
             //gets the ID of event user wants to buy ticket for
             //and starts the checkout process
             CartViewModel viewData = new CartViewModel();
-            Event eventToBuy = _context.Events.Find(id);
+            Event? eventToBuy = _context.Events.Find(id);
+            if (eventToBuy is null)
+            {
+                return NotFound();
+            }
             viewData.EventId = eventToBuy.EventId;
             viewData.EventTitle = eventToBuy.Title;
             viewData.TicketPrice = eventToBuy.TicketPrice;
@@ -34,7 +38,12 @@ namespace Events_v1.Controllers
             {
                 Cart cart = new Cart();
                 cart.Customer = model.Customer;
-                cart.Event = _context.Events.Find(model.EventId);
+                Event? eventToBuy = _context.Events.Find(model.EventId);
+                if (eventToBuy is null)
+                {
+                    return NotFound();
+                }
+                cart.Event = eventToBuy;
                 cart.SelectedDelivery = model.SelectedDelivery;
                 cart.SeniorDiscount = model.SeniorDiscount;
                 cart.Count = model.Count;

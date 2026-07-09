@@ -4,10 +4,10 @@ namespace Events_v1.Models.DomainModels
 {
     public class Cart
     {
-        public Event Event { get; set; }
-        public Sale Sale { get; set; }
-        public Customer Customer { get; set; }
-        public string SelectedDelivery { get; set; }
+        public Event Event { get; set; } = null!;
+        public Sale Sale { get; set; } = null!;
+        public Customer Customer { get; set; } = null!;
+        public string SelectedDelivery { get; set; } = string.Empty;
         public bool SeniorDiscount { get; set; }
         public int Count { get; set; }
         private void CalculateDiscount()

@@ -1,6 +1,6 @@
 # Events_v1
 
-Events_v1 is a simple ASP.NET Core 6 MVC application that demonstrates
+Events_v1 is a simple ASP.NET Core 10 MVC application that demonstrates
 ticket sales for a small theatre.  It uses Entity Framework Core with
 SQL Server LocalDB for persistence and ASP.NET Core Identity for
 authentication and an admin‑claim based authorization policy.
@@ -19,7 +19,7 @@ authentication and an admin‑claim based authorization policy.
 
 ### Prerequisites
 
-* .NET 6 SDK (or later)
+* .NET 10 SDK (or later)
 * SQL Server LocalDB (installed with Visual Studio or available via
   [sqlcmd tools](https://aka.ms/sql-localdb))
 * Visual Studio 2022 / VS Code (optional)

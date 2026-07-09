@@ -6,12 +6,12 @@ namespace Events_v1.Models.ViewModels
 {
     public class CartViewModel
     {
-        public string EventTitle { get; set; }
+        public string EventTitle { get; set; } = string.Empty;
         public double TicketPrice { get; set; }
         public int EventId { get; set; }
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = new Customer();
         [Required(ErrorMessage = "Please select a delivery option!")]
-        public string SelectedDelivery { get; set; }
+        public string SelectedDelivery { get; set; } = string.Empty;
         public bool SeniorDiscount { get; set; }
         [Required(ErrorMessage = "Please enter count of tickets!")]
         [DataType(DataType.Text)]

@@ -10,10 +10,12 @@ builder.Services.AddControllersWithViews();
 
 // Get the current directory path
 string path = Directory.GetCurrentDirectory();
+string connectionString = builder.Configuration.GetConnectionString("DBConnection")
+    ?? throw new InvalidOperationException("Connection string 'DBConnection' was not found.");
 
 // Configure the DbContext with SQL Server and replace the [DataDirectory] placeholder with the current path
 builder.Services.AddDbContext<EventContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection").Replace("[DataDirectory]", path)));
+    options.UseSqlServer(connectionString.Replace("[DataDirectory]", path)));
 
 // Configure Identity services with custom password requirements
 builder.Services.AddIdentity<User, IdentityRole>(options =>

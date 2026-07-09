@@ -49,7 +49,11 @@ namespace Events_v1.Controllers
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            Event eventToEdit = _context.Events.Find(id);
+            Event? eventToEdit = _context.Events.Find(id);
+            if (eventToEdit is null)
+            {
+                return NotFound();
+            }
             ViewBag.Categories = _context.Categories.ToList();
             return View(eventToEdit);
         }
@@ -72,7 +76,11 @@ namespace Events_v1.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Event eventToDelete = _context.Events.Find(id);
+            Event? eventToDelete = _context.Events.Find(id);
+            if (eventToDelete is null)
+            {
+                return NotFound();
+            }
             return View(eventToDelete);
         }
 
