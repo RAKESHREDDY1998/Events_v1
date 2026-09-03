@@ -71,14 +71,34 @@ authentication and an admin‑claim based authorization policy.
 The following improvements have been applied since the original
 template:
 
-* category drop‑downs retain their value when validation fails
-* admin “Edit” page redisplays correctly when there are validation
-  errors
+* upgraded from .NET 6 to .NET 10 (EF Core / Identity 10.0)
+* money columns (`TicketPrice`, `SubTotal`, `Discount`, `DeliveryCharge`,
+  `AmountDue`) are stored as `decimal(18,2)` instead of `float`, and
+  `SaleDate` is a real `datetime2` instead of a formatted string
+* deleting an event no longer cascade‑deletes its sales; the admin
+  Delete page refuses to delete an event that has recorded sales
+* the customer and the sale are saved in a single `SaveChanges` call,
+  so a failed checkout cannot leave an orphaned customer row
+* `/Cart/Confirmation` only accepts POST with an anti‑forgery token; a
+  crafted GET URL can no longer create a sale
+* an `Error` action and view exist for `UseExceptionHandler("/Home/Error")`
+* the admin “Edit” page redisplays correctly when there are validation
+  errors (categories are reloaded and the heading is set)
+* validation: ticket count must be 1–100, ticket price must be positive,
+  customer email must be a valid address, and the password confirmation
+  error now appears under the Confirm Password field
 * the navigation bar only renders the admin link for users who have
   the `IsAdmin` claim
+* category drop‑downs retain their value when validation fails
 * all pages include the validation scripts automatically
-* various markup corrections (`form-control` classes, quoted `value`
-  attributes)
+* various markup corrections (`form-control` classes, currency
+  formatting on the sales and confirmation pages, dynamic footer year)
+
+If you have an existing database, run `dotnet ef database update` to
+apply the `MoneyAsDecimalAndRestrictSaleDelete` migration.  It converts
+the existing `SaleDate` strings to `datetime2` using SQL Server's
+implicit conversion, so any rows that were written under a non‑US date
+format may need to be fixed by hand first.
 
 ### Extending
 
