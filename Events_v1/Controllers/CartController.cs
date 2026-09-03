@@ -15,7 +15,7 @@ namespace Events_v1.Controllers
             _context = ctx;
         }
 
-        [Authorize]
+        [HttpGet]
         public IActionResult Buy(int id)
         {
             //gets the ID of event user wants to buy ticket for
@@ -31,6 +31,10 @@ namespace Events_v1.Controllers
             viewData.TicketPrice = eventToBuy.TicketPrice;
             return View(viewData);
         }
+
+        // POST only: a sale must never be created from a crafted GET URL.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Confirmation(CartViewModel model)
         {
             //model contains sale info user supplied in the form

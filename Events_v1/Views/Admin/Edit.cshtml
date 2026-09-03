@@ -1,6 +1,7 @@
 ﻿@model Event
 @{
     string title = ViewBag.Action + " Event";
+    ViewData["Title"] = title;
 }
 <h2>@title</h2>
 <form asp-action="Edit" method="post">

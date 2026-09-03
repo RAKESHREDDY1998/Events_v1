@@ -11,6 +11,7 @@ namespace Events_v1.Models.DomainModels
         [Required]
         public string LastName { get; set; } = string.Empty;
         [Required]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; } = string.Empty;
         [Required]
         public string Address { get; set; } = string.Empty;

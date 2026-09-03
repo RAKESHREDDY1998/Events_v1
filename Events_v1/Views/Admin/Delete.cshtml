@@ -1,11 +1,24 @@
 ﻿@model Event
 @{
     ViewBag.Title = "Delete Event";
+    int saleCount = ViewBag.SaleCount ?? 0;
 }
 <h2>Confirm Deletion</h2>
 <h3>@Model.Title (@Model.Description)</h3>
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="EventId" />
-    <button type="submit" class="btn btn-primary">Delete</button>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
-</form>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@if (saleCount > 0)
+{
+    <p class="text-danger">
+        This event has @saleCount recorded sale(s) and cannot be deleted while those sales exist.
+    </p>
+    <a asp-controller="Admin" asp-action="EventSales" asp-route-id="@Model.EventId" class="btn btn-secondary">View sales</a>
+    <a asp-controller="Admin" asp-action="List" class="btn btn-primary">Back to events</a>
+}
+else
+{
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="EventId" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-controller="Admin" asp-action="List" class="btn btn-primary">Cancel</a>
+    </form>
+}

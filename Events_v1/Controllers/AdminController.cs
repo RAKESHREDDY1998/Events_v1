@@ -32,11 +32,8 @@ namespace Events_v1.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("List");
             }
-            else
-            {
-                ViewBag.Categories = _context.Categories.ToList();
-                return View(newEvent);
-            }
+            ViewBag.Categories = _context.Categories.ToList();
+            return View(newEvent);
         }
 
         public IActionResult List()
@@ -48,12 +45,12 @@ namespace Events_v1.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewBag.Action = "Edit";
             Event? eventToEdit = _context.Events.Find(id);
             if (eventToEdit is null)
             {
                 return NotFound();
             }
+            ViewBag.Action = "Edit";
             ViewBag.Categories = _context.Categories.ToList();
             return View(eventToEdit);
         }
@@ -67,10 +64,11 @@ namespace Events_v1.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("List");
             }
-            else
-            {
-                return View(eventToUpdate);
-            }
+            // Redisplay with the same data the GET action supplies; without the
+            // categories the view's drop-down loop throws a NullReferenceException.
+            ViewBag.Action = "Edit";
+            ViewBag.Categories = _context.Categories.ToList();
+            return View(eventToUpdate);
         }
 
         [HttpGet]
@@ -81,12 +79,26 @@ namespace Events_v1.Controllers
             {
                 return NotFound();
             }
+            ViewBag.SaleCount = _context.Sales.Count(s => s.EventId == id);
             return View(eventToDelete);
         }
 
-        [HttpPost]
-        public IActionResult Delete(Event eventToDelete)
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int eventId)
         {
+            Event? eventToDelete = _context.Events.Find(eventId);
+            if (eventToDelete is null)
+            {
+                return NotFound();
+            }
+            int saleCount = _context.Sales.Count(s => s.EventId == eventId);
+            if (saleCount > 0)
+            {
+                // Sales are the theatre's financial records; deleting an event must never remove them.
+                ModelState.AddModelError("", $"This event has {saleCount} recorded sale(s) and cannot be deleted.");
+                ViewBag.SaleCount = saleCount;
+                return View(eventToDelete);
+            }
             _context.Events.Remove(eventToDelete);
             _context.SaveChanges();
             return RedirectToAction("List");

@@ -34,6 +34,10 @@
             <input type="password" asp-for="ConfirmPassword"
                    class="form-control" />
         </div>
+        <div class="col">
+            <span asp-validation-for="ConfirmPassword"
+                  class="text-danger"></span>
+        </div>
     </div>
     <div class="row">
         <div class="offset-2 col-sm-4">

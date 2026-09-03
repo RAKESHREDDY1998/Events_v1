@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Events_v1.Authorization
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,12 +31,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li> <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="List">Admin</a> </li>
-                    </ul>
-
-                    @using Microsoft.AspNetCore.Identity
-                    @inject SignInManager<User> signInManager
+                    @if (User.HasClaim(Claims.IsAdmin, "true"))
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="List">Admin</a> </li>
+                        </ul>
+                    }
                     <ul class="navbar-nav">
                         @if (signInManager.IsSignedIn(User))
                         {
@@ -51,7 +54,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register </a>
                             </li>
-                            <li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                             </li>
                         }
@@ -68,7 +71,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - ASP Theatre
+            &copy; @DateTime.Now.Year - ASP Theatre
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
