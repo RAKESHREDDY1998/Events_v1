@@ -7,13 +7,14 @@ namespace Events_v1.Models.ViewModels
     public class CartViewModel
     {
         public string EventTitle { get; set; } = string.Empty;
-        public double TicketPrice { get; set; }
+        public decimal TicketPrice { get; set; }
         public int EventId { get; set; }
         public Customer Customer { get; set; } = new Customer();
         [Required(ErrorMessage = "Please select a delivery option!")]
         public string SelectedDelivery { get; set; } = string.Empty;
         public bool SeniorDiscount { get; set; }
         [Required(ErrorMessage = "Please enter count of tickets!")]
+        [Range(1, 100, ErrorMessage = "Please enter between 1 and 100 tickets.")]
         [DataType(DataType.Text)]
         public int Count { get; set; }
         public Dictionary<string, string> DeliveryOptions { get; set; } = new Dictionary<string, string>

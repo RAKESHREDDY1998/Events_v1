@@ -9,19 +9,19 @@ namespace Events_v1.Models.DomainModels
         public int EventId { get; set; }
 
         [Required]
-        public string SaleDate { get; set; } = string.Empty;
+        public DateTime SaleDate { get; set; }
         [Required]
         public int TicketCount { get; set; }
         [Required]
         public string Delivery { get; set; } = string.Empty;
         [Required]
-        public double SubTotal { get; set; }
+        public decimal SubTotal { get; set; }
         [Required]
-        public double Discount { get; set; }
+        public decimal Discount { get; set; }
         [Required]
-        public double DeliveryCharge { get; set; }
+        public decimal DeliveryCharge { get; set; }
         [Required]
-        public double AmountDue { get; set; }
+        public decimal AmountDue { get; set; }
         public Customer Customer { get; set; } = null!;
         public int CustomerId { get; set; }
     }

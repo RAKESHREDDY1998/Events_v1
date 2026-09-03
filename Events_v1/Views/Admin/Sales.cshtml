@@ -19,16 +19,16 @@
             @foreach (var sale in Model)
             {
                 <tr>
-                    <td>@sale.SaleDate</td>
+                    <td>@sale.SaleDate.ToString("d")</td>
                     <td>@sale.Event.Title </td>
                     <td>@sale.TicketCount </td>
                     @{
                         string fullName = sale.Customer.FirstName + " " + sale.Customer.LastName;
                     }
                     <td>@fullName </td>
-                    <td>@sale.Discount </td>
+                    <td>@sale.Discount.ToString("C2")</td>
                     <td>@sale.Delivery </td>
-                    <td>@sale.AmountDue </td>
+                    <td>@sale.AmountDue.ToString("C2")</td>
                 </tr>
             }
         </tbody>

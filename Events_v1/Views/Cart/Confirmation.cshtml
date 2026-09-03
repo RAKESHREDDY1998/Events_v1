@@ -6,7 +6,7 @@
 <table class="table-primary">
     <tr>
         <td class="col-md-2"> Order date :</td>
-        <td> @Model.Sale.SaleDate </td>
+        <td> @Model.Sale.SaleDate.ToString("d") </td>
     </tr>
     <tr>
         <td class="col-md-2"> Event:</td>
@@ -14,7 +14,7 @@
     </tr>
     <tr>
         <td class="col-md-2"> Ticket Price: </td>
-        <td> @Model.Event.TicketPrice </td>
+        <td> @Model.Event.TicketPrice.ToString("C2") </td>
     </tr>
     <tr>
         <td class="td2"> Number of tickets: </td>

@@ -9,7 +9,8 @@ namespace Events_v1.Models.DomainModels
         public string Title { get; set; } = string.Empty;
 
         [Required]
-        public double TicketPrice { get; set; }
+        [Range(0.01, 10000.00, ErrorMessage = "Ticket price must be between 0.01 and 10,000.")]
+        public decimal TicketPrice { get; set; }
 
         [Required]
         public string Description { get; set; } = string.Empty;

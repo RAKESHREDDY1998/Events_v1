@@ -4,47 +4,52 @@ namespace Events_v1.Models.DomainModels
 {
     public class Cart
     {
+        private const decimal SeniorDiscountRate = 0.2m;
+        private const decimal MailDeliveryCharge = 3.95m;
+
         public Event Event { get; set; } = null!;
         public Sale Sale { get; set; } = null!;
         public Customer Customer { get; set; } = null!;
         public string SelectedDelivery { get; set; } = string.Empty;
         public bool SeniorDiscount { get; set; }
         public int Count { get; set; }
-        private void CalculateDiscount()
-        {
-            const double SENIOR_DISCOUNT = 0.2;
-            Sale.Discount = Sale.SubTotal * SENIOR_DISCOUNT;
-        }
+
         public void ProcessSale(EventContext context)
         {
-            context.Customers.Add(Customer);
-            context.SaveChanges();
-            Sale = new Sale();
             //Calculates sale receipt values and sets the sale date
-            Sale.SaleDate = DateTime.Today.ToShortDateString();
-            Sale.TicketCount = Count;
+            Sale = new Sale
+            {
+                SaleDate = DateTime.Now,
+                TicketCount = Count,
+                Customer = Customer,
+                Event = Event
+            };
             Sale.SubTotal = Event.TicketPrice * Sale.TicketCount;
-            if (SeniorDiscount == true)
+            if (SeniorDiscount)
             {
-                CalculateDiscount();
+                Sale.Discount = Math.Round(Sale.SubTotal * SeniorDiscountRate, 2, MidpointRounding.AwayFromZero);
             }
-            if (SelectedDelivery == "M")
+            switch (SelectedDelivery)
             {
-                Sale.DeliveryCharge = 3.95;
-                Sale.Delivery = "Mail";
+                case "M":
+                    Sale.DeliveryCharge = MailDeliveryCharge;
+                    Sale.Delivery = "Mail";
+                    break;
+                case "P":
+                    Sale.Delivery = "Print at home";
+                    break;
+                case "D":
+                    Sale.Delivery = "Digital ticket";
+                    break;
+                case "C":
+                    Sale.Delivery = "Will call";
+                    break;
             }
-            else if (SelectedDelivery == "P")
-                Sale.Delivery = "Print at home";
-            else if (SelectedDelivery == "D")
-                Sale.Delivery = "Digital ticket";
-            else if (SelectedDelivery == "C")
-                Sale.Delivery = "Will call";
             Sale.AmountDue = Sale.SubTotal - Sale.Discount + Sale.DeliveryCharge;
-            //Save data
-            Sale.CustomerId = Customer.CustomerId;
-            Sale.EventId = Event.EventId;
-            Sale.Customer = Customer;
-            Sale.Event = Event;
+
+            //Save data: the customer and the sale are written in one SaveChanges call so
+            //they commit in a single transaction and a failure cannot leave an orphaned customer.
+            context.Customers.Add(Customer);
             context.Sales.Add(Sale);
             context.SaveChanges();
         }
